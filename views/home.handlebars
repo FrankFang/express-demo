@@ -1,0 +1,50 @@
+<nav id="pager" data-total-pages="{{totalPages}}" data-current-page="{{currentPage}}">
+</nav>
+
+共 {{totalPages}} 页 | 当前是第 {{currentPage}} 页
+
+<hr>
+
+{{#each articles}}
+  <article>
+    <h1> {{title}} </h1>
+    <p> {{content}} </p>
+  </article>
+{{/each}}
+
+<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script>
+{
+  let $pager = $('#pager')
+  let pager = $pager[0]
+  let {totalPages, currentPage} = pager.dataset
+  totalPages = window.parseInt(totalPages,10)
+  currentPage = window.parseInt(currentPage,10)
+
+  let $ol = $('<ol />')
+
+  buttonCount = 10
+
+  let start1 = Math.max(currentPage - Math.round(buttonCount / 2), 1)
+  let end1 = Math.min(start1 + buttonCount - 1, totalPages)
+  let end2 = Math.min(currentPage + Math.round(buttonCount / 2) - 1, totalPages)
+  let start2 = Math.max(end2 - buttonCount + 1, 1)
+  let start = Math.min(start1, start2)
+  let end = Math.max(end1, end2)
+
+
+  for(let i=start;i<= end; i++){
+    let $li
+    if(i === currentPage){
+      $li = $(`<li><span>${i}</span></li>`)
+    }else{
+      $li = $(`<li><a href="?page=${i}">${i}</a></li>`)
+    }
+    $ol.append($li)
+  }
+
+  $pager.append($ol)
+
+}
+
+</script>
